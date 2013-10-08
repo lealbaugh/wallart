@@ -7,11 +7,19 @@ def main():
 		if len(line.split()) > 0:
 			firstword = line.split()[0]
 			if firstword=="ACT":
-				out.write("\n ===>"+line)
+				currentact = line.split()[1]
 			elif firstword=="SCENE":
-				out.write("\n"+line)
+				currentscene = "\nAct "+currentact+", Scene "+line.split()[1]+":\n"
+				out.write(currentscene)
+				players = []
 			elif line.isupper():
-				out.write(line)
+				discard = False
+				for existing in players:
+					if line == existing:
+						discard = True
+				if discard == False:
+					players.append(line)
+					out.write(line)
 	f.close()
 	out.close()
 
