@@ -1,16 +1,16 @@
 
 
 def main(): 
-	f = open('winterstale.txt','r')
-	out = open('output.txt','w')
-	for line in f:
+	source = open('winterstale.txt','r')
+	scenesfile = open('scenes.txt','w')
+	for line in source:
 		if len(line.split()) > 0:
 			firstword = line.split()[0]
 			if firstword=="ACT":
 				currentact = line.split()[1]
 			elif firstword=="SCENE":
 				currentscene = "\nAct "+currentact+", Scene "+line.split()[1]+":\n"
-				out.write(currentscene)
+				scenesfile.write(currentscene)
 				players = []
 			elif line.isupper():
 				discard = False
@@ -19,9 +19,29 @@ def main():
 						discard = True
 				if discard == False:
 					players.append(line)
-					out.write(line)
-	f.close()
-	out.close()
+					scenesfile.write(line)
+	source.close()
+	scenesfile.close()
+	castlist = open('scenes.txt','r')
+	playersfile = open('players.txt','w')
+	players = []
+	for line in castlist:
+	
+		if len(line.split()) > 0:
+			firstword = line.split()[0]
+			if firstword !="Act":
+				discard = False
+				for existing in players:
+					if firstword == existing:
+						discard = True
+				if discard == False:
+					players.append(firstword)
+	for item in players:
+		playersfile.write(item+"\n")
+	
+	castlist.close()
+	playersfile.close()
+
 
 
 
